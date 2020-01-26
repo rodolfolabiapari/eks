@@ -6,4 +6,4 @@ instance_type = "t3.medium"
 
 
 public_endpoint_api  = true
-private_endpoint_api = false
+private_endpoint_api = true

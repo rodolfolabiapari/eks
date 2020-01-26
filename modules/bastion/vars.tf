@@ -23,6 +23,10 @@ variable "bastion_name" {
   default = "bastion"
 }
 
+variable "iam_instance_profile" {
+  default = ""
+}
+
 variable "vpc_id" {
 }
 

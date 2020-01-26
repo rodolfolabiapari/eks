@@ -35,6 +35,9 @@ variable "private_endpoint_api" {
   default = false
 }
 
+variable "kubernetes_version" {
+  default = "1.14"
+}
 
 variable "map_accounts" {
   description = "Additional AWS account numbers to add to the aws-auth configmap."

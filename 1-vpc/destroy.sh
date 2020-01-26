@@ -1,11 +1,9 @@
 #!/bin/bash
 
 usage() { 
-    echo -e "\n  Usage: $0 [-h] [-p <./>]" 1>&2; exit 1; 
+    echo -e "\n  Usage: $0 [-h] " 1>&2; exit 1; 
     exit
 }
-
-path="./"
 
 echo -e "FMT: Formatando os arquivos para Canonical"
 terraform fmt -diff -recursive 
@@ -21,16 +19,13 @@ while getopts "hp:" option; do
         h) 
             usage
             ;;
-        p) 
-            path=$OPTARG
-            ;;
         *)
             ;;
     esac
 done
 
 echo -e "\nINIT: Atualizando os modulos do Terraform"
-terraform init ${path}
+terraform init 
 if [ $? -eq 0 ]; then
     echo -e "INIT: Atualizacao concluida com sucesso"
 else
@@ -39,7 +34,7 @@ else
 fi
 
 echo -e "\nPLAN: Planejando a arvore de dependencia"
-terraform plan -var-file ${path}/terraform.tfvars ${path}  #| tee plan.log
+terraform plan -var-file terraform.tfvars   #| tee plan.log
 if [ $? -eq 0 ]; then
     echo -e "PLAN: Planejamento finalizado com sucesso"
 else
@@ -48,7 +43,7 @@ else
 fi
 
 echo -e "\nAPPLY: Montando a DESTRUICAO (processo NAO automatico, aguarde)"
-terraform destroy -var-file ${path}/terraform.tfvars ${path}  #| tee apply.log
+terraform destroy -var-file terraform.tfvars   #| tee apply.log
 if [ $? -eq 0 ]; then
     echo -e "APPLY: Destruicao finalizada com sucesso"
 else

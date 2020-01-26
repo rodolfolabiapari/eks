@@ -4,15 +4,29 @@ aws-vault exec --assume-role-ttl=1h linuxplaceqas
 
 # Provisionando o VPC
 
+Entre no diretório do git (eu sempre tenho uma pasta git)
+
 ``` bash
-./build.sh -p eks/1-vpc
+cd ~/git/eks/
+```
+
+Entre no diretório VPC, e construa a rede e bastion para o EKS.
+
+``` bash
+cd 1-vpc
+./build.sh
+cd ..
 ```
 
 
 # Provisionando o EKS
 
+Após provisionado a rede, provisione o EKS.
+
 ``` bash
-./build.sh -p eks/2-eks
+cd 2-eks
+./build.sh 
+cd ..
 ```
 
 # Configurando permissões para acesso a API Kubernetes

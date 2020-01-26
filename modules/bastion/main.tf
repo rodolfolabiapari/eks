@@ -73,6 +73,8 @@ module "bastion" {
   associate_public_ip_address = true
   #placement_group             = aws_placement_group.web.id
 
+  iam_instance_profile = var.iam_instance_profile
+
   root_block_device = [
     {
       volume_type = "gp2"
@@ -103,28 +105,3 @@ module "bastion" {
 }
 
 
-#resource "aws_network_interface" "this" {
-#  count = 1
-#
-#  subnet_id = tolist(data.aws_subnet_ids.all.ids)[count.index]
-#}
-
-
-#module "ec2_with_network_interface" {
-#  source = "../../"
-#
-#  instance_count = 1
-#
-#  name            = "example-network"
-#  ami             = data.aws_ami.amazon_linux.id
-#  instance_type   = "c5.large"
-#  placement_group = aws_placement_group.web.id
-#
-#  network_interface = [
-#    {
-#      device_index          = 0
-#      network_interface_id  = aws_network_interface.this[0].id
-#      delete_on_termination = false
-#    }
-#  ]
-#}

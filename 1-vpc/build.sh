@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage() { 
-    echo -e "\n  Usage: $0 [-h] [-p <./>]" 1>&2; exit 1; 
+    echo -e "\n  Usage: $0 [-h] " 1>&2; exit 1; 
     exit
 }
 
@@ -17,33 +17,28 @@ else
 fi
 
 
-while getopts "hp:" option; do
+while getopts "h" option; do
     case "${option}" in
         h) 
             usage
-            ;;
-        p) 
-            path=$OPTARG
             ;;
         *)
             ;;
     esac
 done
 
-echo -e "\nUtilizando o path ${path}"
-
-echo -e "\nINIT: Inicializando os modulos do Terraform"
+echo -e "\nINIT: Baixando os modulos do Terraform"
 terraform init ${path}
 if [ $? -eq 0 ]; then
-    echo -e "INIT: Inicializacao concluida com sucesso"
+    echo -e "INIT: Download concluido com sucesso"
 else
-    echo -e "INIT: Inicializacao concluida com ERROS"
+    echo -e "INIT: Download concluido com ERROS"
     exit
 fi
 
 
 echo -e "\nPLAN: Planejando o provisionamento (para ver os .logs, execute 'less -E arquivo.log')"
-terraform plan -var-file ${path}/terraform.tfvars ${path} #| tee plan.log
+terraform plan -var-file terraform.tfvars #| tee plan.log
 if [ $? -eq 0 ]; then
     echo -e "PLAN: Planejamento finalizado com sucesso"
 else
@@ -52,8 +47,8 @@ else
 fi
 
 
-echo -e "\nAPPLY: Iniciando o PROVISIONAMENTO definitivo"
-terraform apply -var-file ${path}/terraform.tfvars ${path} #| tee apply.log
+echo -e "\nAPPLY: Montando o PROVISIONAMENTO definitivo"
+terraform apply -var-file terraform.tfvars #| tee apply.log
 if [ $? -eq 0 ]; then
     echo -e "APPLY: Provisionamento finalizado com sucesso"
 else
